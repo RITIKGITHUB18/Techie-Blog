@@ -51,11 +51,18 @@
     git clone https://github.com/<your user-name>/Techie-Blog.git
 ```
 
-- Run command `cd POST-O-BLOG`
+- Run command `cd TECHIE-BLOG`
 
 - Install Dependencies using
 ```
     npm install
+```
+-  create .env file in the root folder and paste below things in it.
+```
+SECRET=thisIsMySecret
+ATLAS_URI="mongodb+srv://ritikrog90:vrywSRpAsVF8TnZr@cluster0.6elhrwa.mongodb.net/postblogDB"     or
+ATLAS_URI="mongodb://127.0.0.1:27017/blogAppDatabase"
+PORT = 4000
 ```
 - Run this command to start the project.
 ```
