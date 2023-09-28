@@ -16,6 +16,7 @@ const { marked } = require("marked");
 const createDomPurify = require("dompurify");
 const { JSDOM } = require("jsdom");
 const dompurify = createDomPurify(new JSDOM().window);
+const nodemailer = require("nodemailer");
 
 const app = express();
 
@@ -75,6 +76,7 @@ postSchema.pre("validate", function (next) {
   }
   next();
 });
+
 const Post = mongoose.model("Post", postSchema);
 
 //--------User Schema--------
@@ -89,6 +91,30 @@ const userSchema = new mongoose.Schema({
 
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
+
+userSchema.post("save", async function (doc) {
+  try {
+    console.log("DOC: ", doc);
+    let transporter = nodemailer.createTransport({
+      host: process.env.Mail_HOST,
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
+      },
+    });
+
+    // Send Mail
+    let info = await transporter.sendMail({
+      from: `Techie-Blog`,
+      to: doc.username,
+      subject: `${doc.userHandle} successfully sign-up into Techie-Blog`,
+      text: `${doc.userHandle} embarked on a journey into the world of Techie-Blog, crafting a digital haven where technology and creativity unite in perfect harmony.`,
+    });
+    console.log("INFO", info);
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 const User = mongoose.model("User", userSchema);
 
