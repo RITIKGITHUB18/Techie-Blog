@@ -77,6 +77,31 @@ postSchema.pre("validate", function (next) {
   next();
 });
 
+postSchema.post("save", async function (doc) {
+  try {
+    console.log("DOC: ", doc);
+    let transporter = nodemailer.createTransport({
+      host: process.env.Mail_HOST,
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
+      },
+    });
+    // console.log("postSchema", doc);
+
+    //----------Send Mail--------------
+    let info = await transporter.sendMail({
+      from: `Techie-Blog`,
+      to: doc.email,
+      subject: `${doc.account} is successfully created a post into Techie-Blog with the tittle ${doc.title} `,
+      text: `${doc.content}`,
+      text: `${doc.markdown}`,
+    });
+    // console.log("INFO", info);
+  } catch (error) {
+    console.error(error);
+  }
+});
 const Post = mongoose.model("Post", postSchema);
 
 //--------User Schema--------
