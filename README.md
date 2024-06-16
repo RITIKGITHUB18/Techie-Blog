@@ -60,8 +60,8 @@
 -  create .env file in the root folder and paste below things in it.
 ```
 SECRET=thisIsMySecret
-ATLAS_URI="mongodb+srv://ritikrog90:vrywSRpAsVF8TnZr@cluster0.6elhrwa.mongodb.net/postblogDB"     or
-ATLAS_URI="mongodb://127.0.0.1:27017/blogAppDatabase"
+ATLAS_URI=""     or
+Local_URI="mongodb://127.0.0.1:27017/blogAppDatabase"
 PORT = 4000
 ```
 - Run this command to start the project.
